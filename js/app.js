@@ -51,7 +51,7 @@ class AppController {
 
         this.editor = CodeMirror.fromTextArea(textarea, {
             mode: 'htmlmixed',
-            theme: 'pixel9',
+            theme: 'dracula',
             lineNumbers: true,
             lineWrapping: true,
             autoCloseTags: true,
@@ -595,7 +595,7 @@ class AppController {
     }
 
     toggleUiMode() {
-        const currentMode = document.documentElement.getAttribute('data-theme') || 'light';
+        const currentMode = document.documentElement.getAttribute('data-theme') || 'dark';
         const newMode = currentMode === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newMode);
         window.gameStorage.setUiMode(newMode);
@@ -870,8 +870,7 @@ ${code}
                 confetti({
                     particleCount: 75,
                     spread: 65,
-                    origin: { y: 0.65 },
-                    colors: ['#6c4df6', '#22bcf0', '#ff5d73', '#22c58b', '#ffc233']
+                    origin: { y: 0.65 }
                 });
             }
 
@@ -887,8 +886,7 @@ ${code}
                 confetti({
                     particleCount: 130,
                     spread: 85,
-                    origin: { y: 0.6 },
-                    colors: ['#6c4df6', '#22bcf0', '#ff5d73', '#22c58b', '#ffc233']
+                    origin: { y: 0.6 }
                 });
             }
 

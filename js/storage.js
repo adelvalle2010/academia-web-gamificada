@@ -3,7 +3,7 @@ const STORAGE_KEY = 'edu_code_adventure_save_v1';
 
 const defaultState = {
     selectedTheme: 'space', // 'space' | 'vet' | 'cafe' | 'rock'
-    uiMode: 'light',       // 'light' | 'dark'
+    uiMode: 'dark',        // 'dark' | 'light'
     currentLevel: 1,
     totalScore: 0,
     totalStars: 0,
@@ -48,7 +48,7 @@ class GameStorage {
     }
 
     getUiMode() {
-        return this.state.uiMode || 'light';
+        return this.state.uiMode || 'dark';
     }
 
     setUiMode(mode) {
