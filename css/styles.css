@@ -2206,3 +2206,55 @@ body {
 }
 
 
+
+/* =========================================================
+   GUARDAR / CARGAR PROGRESO (archivo .json)
+   ========================================================= */
+.welcome-progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.btn-progress {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+}
+
+.levels-header-stats {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.progress-modal-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-modal-desc {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    word-break: break-word;
+}
+
+.progress-warning {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fbbf24;
+    border-radius: var(--radius-md);
+    padding: 0.7rem 0.9rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+[data-theme="light"] .progress-warning {
+    color: #92400e;
+    background: #fffbeb;
+    border-color: #fde68a;
+}

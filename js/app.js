@@ -355,6 +355,36 @@ class AppController {
             });
         }
 
+        // Guardar y cargar el progreso en un archivo (.json)
+        ['levels-save-progress-btn', 'header-save-progress-btn'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.addEventListener('click', () => this.downloadProgressFile(btn));
+        });
+
+        ['welcome-load-progress-btn', 'levels-load-progress-btn'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.addEventListener('click', () => this.openProgressFilePicker());
+        });
+
+        const progressInput = document.getElementById('progress-file-input');
+        if (progressInput) {
+            progressInput.addEventListener('change', () => {
+                const file = progressInput.files && progressInput.files[0];
+                progressInput.value = '';
+                if (file) this.handleProgressFile(file);
+            });
+        }
+
+        const progressCancelBtn = document.getElementById('progress-cancel-btn');
+        if (progressCancelBtn) {
+            progressCancelBtn.addEventListener('click', () => this.closeProgressModal());
+        }
+
+        const progressConfirmBtn = document.getElementById('progress-confirm-btn');
+        if (progressConfirmBtn) {
+            progressConfirmBtn.addEventListener('click', () => this.confirmProgressImport());
+        }
+
         // Selector de Dificultad: Nivel Guiado vs Nivel Intermedio
         const modeGuidedBtn = document.getElementById('mode-guided-btn');
         if (modeGuidedBtn) {
@@ -1194,6 +1224,110 @@ ${raw}
 
 </body>
 </html>`;
+    }
+
+    // ---------- Archivo de progreso ----------
+
+    downloadProgressFile(btn) {
+        // Guardar primero el código que esté escribiendo en el editor
+        const workspace = document.getElementById('app-workspace');
+        if (this.editor && workspace && workspace.style.display !== 'none') {
+            window.gameStorage.saveCurrentCode(this.currentLevel, this.editor.getValue(), this.currentMode);
+        }
+
+        const data = window.gameStorage.exportProgress();
+        const dateStr = new Date().toISOString().slice(0, 10);
+        this.triggerFileDownload(`academia-web-progreso-${dateStr}.json`, JSON.stringify(data, null, 2), 'application/json;charset=utf-8');
+
+        if (window.soundFX) window.soundFX.playClick();
+        if (btn) {
+            const labels = btn.querySelectorAll('span');
+            const label = labels.length ? labels[labels.length - 1] : null;
+            const original = label ? label.textContent : null;
+            btn.classList.add('btn-download-success');
+            if (label) label.textContent = '¡Guardado!';
+            setTimeout(() => {
+                btn.classList.remove('btn-download-success');
+                if (label) label.textContent = original;
+            }, 1800);
+        }
+    }
+
+    openProgressFilePicker() {
+        const input = document.getElementById('progress-file-input');
+        if (input) input.click();
+    }
+
+    handleProgressFile(file) {
+        if (file.size > 5 * 1024 * 1024) {
+            this.showProgressModal({ ok: false, error: 'El archivo es demasiado grande para ser un progreso de la Academia Web.' });
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => this.showProgressModal(window.gameStorage.parseProgressFile(String(reader.result || '')), file.name);
+        reader.onerror = () => this.showProgressModal({ ok: false, error: 'No se pudo leer el archivo. Probá de nuevo.' });
+        reader.readAsText(file);
+    }
+
+    showProgressModal(result, fileName = '') {
+        const modal = document.getElementById('progress-modal');
+        if (!modal) return;
+
+        const icon = document.getElementById('progress-modal-icon');
+        const title = document.getElementById('progress-modal-title');
+        const desc = document.getElementById('progress-modal-desc');
+        const summary = document.getElementById('progress-modal-summary');
+        const warning = document.getElementById('progress-modal-warning');
+        const confirmBtn = document.getElementById('progress-confirm-btn');
+        const cancelBtn = document.getElementById('progress-cancel-btn');
+
+        if (!result.ok) {
+            this.pendingProgressState = null;
+            icon.textContent = '⚠️';
+            title.textContent = 'No se pudo cargar';
+            desc.textContent = result.error;
+            summary.style.display = 'none';
+            warning.style.display = 'none';
+            confirmBtn.style.display = 'none';
+            cancelBtn.textContent = 'Entendido';
+            if (window.soundFX) window.soundFX.playError();
+        } else {
+            this.pendingProgressState = result.state;
+            const sum = window.gameStorage.summarizeProgress(result.state);
+            let dateText = '';
+            if (result.exportedAt) {
+                const d = new Date(result.exportedAt);
+                if (!isNaN(d)) dateText = ` · guardado el ${d.toLocaleDateString('es-UY')} a las ${d.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' })}`;
+            }
+            icon.textContent = '📂';
+            title.textContent = 'Cargar progreso';
+            desc.textContent = `${fileName || 'Archivo de progreso'}${dateText}`;
+            document.getElementById('progress-sum-levels').textContent = sum.intermediateCompleted
+                ? `${sum.guidedCompleted} + ${sum.intermediateCompleted}⚡`
+                : String(sum.guidedCompleted);
+            document.getElementById('progress-sum-stars').textContent = String(sum.totalStars);
+            document.getElementById('progress-sum-score').textContent = String(sum.totalScore);
+            summary.style.display = '';
+            warning.style.display = window.gameStorage.hasAnyProgress() ? '' : 'none';
+            confirmBtn.style.display = '';
+            cancelBtn.textContent = 'Cancelar';
+        }
+
+        modal.classList.add('open');
+    }
+
+    closeProgressModal() {
+        this.pendingProgressState = null;
+        const modal = document.getElementById('progress-modal');
+        if (modal) modal.classList.remove('open');
+    }
+
+    confirmProgressImport() {
+        if (!this.pendingProgressState) return;
+        window.gameStorage.importProgress(this.pendingProgressState);
+        this.pendingProgressState = null;
+        // Recargar para que todas las pantallas lean el progreso nuevo
+        window.location.reload();
     }
 
     triggerFileDownload(filename, content, mimeType = 'text/html;charset=utf-8') {

@@ -29,6 +29,7 @@ vendor/
 
 ## Notas
 
-- El progreso se guarda en el `localStorage` del navegador de cada persona.
+- El progreso se guarda solo en el `localStorage` del navegador de cada persona.
+- **Guardar y cargar el avance en otra compu:** en el mapa de niveles (o con 💾 en la pantalla de juego) el botón **Guardar progreso** baja un archivo `academia-web-progreso-AAAA-MM-DD.json` con niveles, estrellas, puntos, temática y el código de cada nivel. En otra computadora, **Cargar progreso** (también en la bienvenida: «Cargar mi progreso») lo restaura después de mostrar un resumen. El archivo se valida antes de cargarse y reemplaza el avance que hubiera en esa compu.
 - Cambios respecto al original: corrección de las etiquetas de código de las tarjetas de nivel (antes `<body>` o `<em>` se interpretaban como HTML real y se veían rotas), y se quitaron el parámetro `?v=1.5`, los `preconnect` a Google Fonts y el script de Netlify.
 - Las librerías de `vendor/` y `js/jszip.min.js` conservan sus propias licencias (MIT / OFL).

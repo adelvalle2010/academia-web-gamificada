@@ -76,6 +76,15 @@
                 </button>
             </article>
         </div>
+
+        <!-- Cargar un progreso guardado (para seguir desde otra computadora) -->
+        <div class="welcome-progress-row">
+            <span>¿Ya jugaste en otra compu?</span>
+            <button id="welcome-load-progress-btn" class="action-btn btn-secondary btn-progress" type="button" title="Cargar el archivo de progreso que guardaste">
+                <span>📂</span>
+                <span>Cargar mi progreso</span>
+            </button>
+        </div>
     </section>
 
     <!-- =========================================================
@@ -103,6 +112,14 @@
                         <span class="stat-icon">🏆</span>
                         <span id="levels-total-score">0</span> pts
                     </div>
+                    <button id="levels-save-progress-btn" class="action-btn btn-primary btn-progress" type="button" title="Bajar un archivo con todo tu avance para seguir en otra compu">
+                        <span>💾</span>
+                        <span>Guardar progreso</span>
+                    </button>
+                    <button id="levels-load-progress-btn" class="action-btn btn-secondary btn-progress" type="button" title="Cargar un archivo de progreso guardado">
+                        <span>📂</span>
+                        <span>Cargar progreso</span>
+                    </button>
                     <button id="levels-download-all-btn" class="action-btn btn-secondary btn-download-compact" type="button" title="Descargar todos los códigos realizados en un archivo ZIP">
                         <span>📦</span>
                         <span>Bajar Todos los Códigos (.zip)</span>
@@ -159,6 +176,11 @@
                     <span class="stat-icon">🏆</span>
                     <span id="header-total-score">0</span> pts
                 </div>
+
+                <!-- Guardar progreso en un archivo -->
+                <button id="header-save-progress-btn" class="icon-btn" title="Guardar progreso (bajar archivo con todo tu avance)" type="button" aria-label="Guardar progreso">
+                    💾
+                </button>
 
                 <!-- Botón Reiniciar Código -->
                 <button id="reset-code-btn" class="icon-btn" title="Reiniciar código inicial del nivel" type="button">
@@ -488,6 +510,42 @@
             </p>
             <div id="levels-grid-container" class="levels-grid">
                 <!-- Generado dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         5. MODAL: CARGAR PROGRESO DESDE ARCHIVO
+         ========================================================= -->
+    <input type="file" id="progress-file-input" accept=".json,application/json" hidden>
+
+    <div id="progress-modal" class="modal-backdrop">
+        <div class="modal-box progress-modal-box" role="dialog" aria-modal="true" aria-labelledby="progress-modal-title">
+            <button class="modal-close-icon" type="button" aria-label="Cerrar modal">&times;</button>
+            <div id="progress-modal-icon" class="progress-modal-icon">📂</div>
+            <h2 id="progress-modal-title">Cargar progreso</h2>
+            <p id="progress-modal-desc" class="progress-modal-desc">Revisá que sea tu archivo antes de cargarlo.</p>
+
+            <div id="progress-modal-summary" class="score-breakdown">
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Niveles</span>
+                    <span id="progress-sum-levels" class="breakdown-value">0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Estrellas</span>
+                    <span id="progress-sum-stars" class="breakdown-value">0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Puntos</span>
+                    <span id="progress-sum-score" class="breakdown-value">0</span>
+                </div>
+            </div>
+
+            <p id="progress-modal-warning" class="progress-warning">⚠️ Esto reemplaza el avance que hay ahora en esta compu.</p>
+
+            <div class="modal-actions-row">
+                <button id="progress-cancel-btn" class="action-btn btn-secondary" type="button">Cancelar</button>
+                <button id="progress-confirm-btn" class="action-btn btn-primary" type="button">✅ Cargar este progreso</button>
             </div>
         </div>
     </div>
