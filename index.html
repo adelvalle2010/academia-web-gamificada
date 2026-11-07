@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=8cf66372-92d1-4eb5-98df-d7d5c97a1081
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Academia Web Gamificada | Aprende HTML, CSS, Tablas y Flexbox</title>
+    <meta name="description" content="Plataforma educativa interactiva y gamificada para aprender desarrollo web con HTML5, CSS moderno, Tablas y Flexbox a través de misiones divertidas.">
+
+    <!-- Google Fonts: Outfit (UI) y JetBrains Mono (Código) -->
+    <link href="vendor/fonts/fonts.css" rel="stylesheet">
+
+    <!-- CodeMirror 5 CDN -->
+    <link rel="stylesheet" href="vendor/codemirror/codemirror.min.css">
+    <link rel="stylesheet" href="vendor/codemirror/theme/dracula.min.css">
+
+    <!-- Estilos de la Aplicación -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- =========================================================
+         1. PANTALLA DE BIENVENIDA (SELECCIÓN DE TEMÁTICA)
+         ========================================================= -->
+    <section id="welcome-screen" class="welcome-screen">
+        <header class="welcome-header">
+            <div class="welcome-badge">🎮 Misión de Aprendizaje Interactivo</div>
+            <h1 class="welcome-title">Academia Web Juvenil</h1>
+            <p class="welcome-subtitle">Aprende HTML, CSS, Tablas y Flexbox resolviendo 25 desafíos de código real. ¡Elige la historia de tu misión para comenzar!</p>
+        </header>
+
+        <div class="themes-grid">
+            <!-- Temática 1: Espacio -->
+            <article class="theme-card" data-theme-id="space" id="theme-space-card">
+                <div class="theme-icon-wrapper">🚀</div>
+                <h3>Agencia Espacial</h3>
+                <div class="theme-brand">AstroCode Control 🌌</div>
+                <p>Programa la computadora de navegación lunar, diseña paneles de telemetría y lanza cohetes a Marte con código.</p>
+                <button class="theme-select-btn" type="button">
+                    <span>Elegir Misión</span> ➔
+                </button>
+            </article>
+
+            <!-- Temática 2: Veterinaria -->
+            <article class="theme-card" data-theme-id="vet" id="theme-vet-card">
+                <div class="theme-icon-wrapper">🐾</div>
+                <h3>Clínica Veterinaria</h3>
+                <div class="theme-brand">Patitas & Co. Rescue 🐶</div>
+                <p>Crea el portal web del refugio de animales, diseña fichas médicas de adopción y ayuda a perritos y gatitos.</p>
+                <button class="theme-select-btn" type="button">
+                    <span>Elegir Misión</span> ➔
+                </button>
+            </article>
+
+            <!-- Temática 3: Cafetería -->
+            <article class="theme-card" data-theme-id="cafe" id="theme-cafe-card">
+                <div class="theme-icon-wrapper">☕</div>
+                <h3>Cafetería Moderna</h3>
+                <div class="theme-brand">Pixel Café & Bakery 🥐</div>
+                <p>Diseña la carta digital de cafés especiales, ofertas de medialunas y tarjetas de pedidos online para los clientes.</p>
+                <button class="theme-select-btn" type="button">
+                    <span>Elegir Misión</span> ➔
+                </button>
+            </article>
+
+            <!-- Temática 4: Banda de Rock -->
+            <article class="theme-card" data-theme-id="rock" id="theme-rock-card">
+                <div class="theme-icon-wrapper">🎸</div>
+                <h3>Banda de Rock</h3>
+                <div class="theme-brand">Los Byte-les Tour ⚡</div>
+                <p>Crea el sitio oficial de la banda, las fechas de la gira mundial en estadios y la venta de entradas VIP.</p>
+                <button class="theme-select-btn" type="button">
+                    <span>Elegir Misión</span> ➔
+                </button>
+            </article>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         2. NUEVA - PANTALLA DE SELECCIÓN DE NIVELES
+         ========================================================= -->
+    <section id="levels-screen" class="levels-screen" style="display: none;">
+        <header class="levels-screen-header">
+            <div class="levels-header-nav">
+                <button id="back-to-themes-btn" class="nav-back-btn" type="button" title="Volver a la selección de temáticas">
+                    <span>⬅</span>
+                    <span>Volver a Temáticas</span>
+                </button>
+
+                <div class="levels-theme-pill">
+                    <span id="levels-theme-icon">🚀</span>
+                    <span id="levels-theme-title">Agencia Espacial</span>
+                </div>
+
+                <div class="levels-header-stats">
+                    <div class="header-stat stars" title="Estrellas acumuladas">
+                        <span class="stat-icon">⭐</span>
+                        <span id="levels-total-stars">0</span>
+                    </div>
+                    <div class="header-stat score" title="Puntaje total">
+                        <span class="stat-icon">🏆</span>
+                        <span id="levels-total-score">0</span> pts
+                    </div>
+                    <button id="levels-download-all-btn" class="action-btn btn-secondary btn-download-compact" type="button" title="Descargar todos los códigos realizados en un archivo ZIP">
+                        <span>📦</span>
+                        <span>Bajar Todos los Códigos (.zip)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="levels-screen-intro">
+                <div class="welcome-badge">🗺️ Misiones y Niveles Disponibles</div>
+                <h2 class="levels-screen-title">Selección de Desafíos (1 al 25)</h2>
+                <p class="levels-screen-subtitle">Tienes libertad total para elegir y resolver cualquier nivel en cualquier orden. ¡Haz clic en un desafío para comenzar!</p>
+            </div>
+        </header>
+
+        <!-- Cuadrícula de 25 Niveles -->
+        <main class="levels-container">
+            <div id="levels-selection-grid" class="levels-selection-grid">
+                <!-- Generado dinámicamente con JavaScript -->
+            </div>
+        </main>
+    </section>
+
+    <!-- =========================================================
+         3. PANTALLA DE JUEGO (WORKSPACE PRINCIPAL)
+         ========================================================= -->
+    <main id="app-workspace" class="app-container" style="display: none;">
+        <!-- Cabecera Gamificada -->
+        <header class="app-header">
+            <div class="header-left">
+                <button id="back-to-levels-btn" class="nav-back-btn" title="Volver al Mapa de Niveles" type="button">
+                    <span>🗺️</span>
+                    <span>Volver al Mapa de Niveles</span>
+                </button>
+
+                <button id="change-theme-btn" class="brand-badge" title="Cambiar temática de la misión" type="button">
+                    <span id="header-brand-name">AstroCode Control 🚀</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">🔄 Cambiar</span>
+                </button>
+
+                <div id="header-level-badge" class="level-indicator-badge">
+                    <span>Nivel 1/25</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <!-- Contador de Estrellas -->
+                <div class="header-stat stars" title="Estrellas totales obtenidas">
+                    <span class="stat-icon">⭐</span>
+                    <span id="header-total-stars">0</span>
+                </div>
+
+                <!-- Puntaje Total -->
+                <div class="header-stat score" title="Puntos acumulados">
+                    <span class="stat-icon">🏆</span>
+                    <span id="header-total-score">0</span> pts
+                </div>
+
+                <!-- Botón Reiniciar Código -->
+                <button id="reset-code-btn" class="icon-btn" title="Reiniciar código inicial del nivel" type="button">
+                    ↺
+                </button>
+
+                <!-- Interruptor Modo Claro / Oscuro -->
+                <button id="theme-toggle-btn" class="icon-btn" title="Alternar Modo Claro / Oscuro" type="button">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Área de Trabajo Split-Screen -->
+        <div class="workspace-grid">
+            
+            <!-- PANEL 1: INSTRUCCIONES Y TEORÍA -->
+            <section class="instructions-panel" aria-label="Instrucciones del nivel">
+                <div class="panel-header-tab">
+                    <span id="mission-category-badge" class="level-category-badge">Fundamentos HTML</span>
+                    
+                    <div class="difficulty-toggle-group" role="tablist" aria-label="Modo de dificultad">
+                        <button id="mode-guided-btn" class="mode-tab-btn active" type="button" role="tab" aria-selected="true" title="Modo Guiado con código inicial y teoría">
+                            <span>🌱</span> <span>Guiado</span>
+                        </button>
+                        <button id="mode-intermediate-btn" class="mode-tab-btn" type="button" role="tab" aria-selected="false" title="Modo Intermedio: Hoja en blanco sin código de ejemplo">
+                            <span>⚡</span> <span>Intermedio</span>
+                        </button>
+                    </div>
+
+                    <button id="open-mission-modal-btn" class="mini-briefing-btn" type="button" title="Ver Misión, Objetivo y Concepto en modal">
+                        <span>📜</span> <span>Ver Misión</span>
+                    </button>
+
+                    <span id="current-attempts-count" class="attempts-badge">Intento: #1</span>
+                </div>
+
+                <div class="instructions-content">
+                    <!-- Tarjeta de Misión Temática -->
+                    <div class="mission-card">
+                        <h2 id="mission-title">Título de la Misión</h2>
+                        <p id="mission-instructions">Cargando consigna...</p>
+                    </div>
+
+                    <!-- Checklist de Objetivos -->
+                    <div class="target-checklist">
+                        <h4>🎯 Objetivo a cumplir:</h4>
+                        <p id="mission-target">Cargando objetivo...</p>
+                    </div>
+
+                    <!-- Pista Desplegada (si se solicita) -->
+                    <div id="hint-content-box" class="hint-display"></div>
+
+                    <!-- Explicación Teórica -->
+                    <div id="mission-theory-section" class="info-section">
+                        <h4>📖 Concepto Clave:</h4>
+                        <p id="mission-theory">Cargando teoría...</p>
+                    </div>
+
+                    <!-- Ejemplo de Código (Visible en Modo Guiado) -->
+                    <div id="mission-example-section" class="info-section">
+                        <div class="example-box-header">
+                            <h4>💻 Ejemplo de Sintaxis:</h4>
+                            <span class="example-badge-guide" title="Usa este ejemplo como referencia visual, no como solución">✍️ Referencia visual (no copiar)</span>
+                        </div>
+                        <div id="mission-example-code" class="example-box" title="Escribe el código tú mismo en el editor para practicar"></div>
+                    </div>
+
+                    <!-- Tarjeta Informativa de Modo Intermedio (Visible en Modo Intermedio) -->
+                    <div id="intermediate-guide-box" class="intermediate-guide-box" style="display: none;">
+                        <div class="intermediate-box-header">
+                            <span class="intermediate-badge">⚡ Reto Autónomo: Hoja en Blanco</span>
+                        </div>
+                        <p class="intermediate-box-text">
+                            En este modo intermedio no hay código de ejemplo. Debes crear el documento HTML5 completo desde cero (<code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> con <code>&lt;title&gt;</code> y <code>&lt;body&gt;</code>) además de resolver lo solicitado en la misión.
+                        </p>
+                        <button id="return-to-guided-btn" class="intermediate-return-btn" type="button">
+                            <span>🌱</span> <span>Volver a ver el Nivel Guiado original</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Footer de Instrucciones con Botón de Pista -->
+                <footer class="instructions-footer">
+                    <button id="get-hint-btn" class="hint-btn" type="button">
+                        💡 Pista <span class="hint-cost-badge">-10 pts</span>
+                    </button>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">
+                        Intento 1 = 5⭐ (100 pts)
+                    </div>
+                </footer>
+            </section>
+
+            <!-- PANEL 2: EDITOR DE CÓDIGO CODEMIRROR -->
+            <section class="editor-panel" aria-label="Editor de código">
+                <div class="panel-toolbar">
+                    <div class="toolbar-title">
+                        <span>📝</span>
+                        <span>Editor de Código (HTML & CSS)</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button id="toolbar-download-current-btn" class="toolbar-btn" type="button" title="Descargar código de este ejercicio (.html)">
+                            <span>📥</span>
+                            <span>Bajar HTML</span>
+                        </button>
+                        <button id="toolbar-download-all-btn" class="toolbar-btn" type="button" title="Descargar todos los códigos realizados (.zip)">
+                            <span>📦</span>
+                            <span>Bajar Todo (.zip)</span>
+                        </button>
+                        <span style="font-size: 0.75rem; color: #71717a; font-family: var(--font-code);">auto-guardado</span>
+                    </div>
+                </div>
+
+                <div class="code-editor-container">
+                    <textarea id="code-editor-area" aria-label="Código HTML y CSS"></textarea>
+                </div>
+
+                <!-- Barra de Acciones / Validación -->
+                <div class="editor-actions-bar">
+                    <div class="editor-actions-group-left">
+                        <button id="run-preview-btn" class="action-btn btn-secondary" type="button" title="Refrescar el iframe">
+                            <span>🔄</span>
+                            <span>Ver Resultado</span>
+                        </button>
+                    </div>
+
+                    <div class="editor-actions-group-right">
+                        <button id="validate-code-btn" class="action-btn btn-primary" type="button" title="Comprobar si el código cumple la misión">
+                            <span>✨</span>
+                            <span>Validar Respuesta</span>
+                        </button>
+
+                        <button id="go-to-intermediate-btn" class="action-btn btn-intermediate" type="button" style="display: none;" title="Pasar al ejercicio intermedio de este nivel">
+                            <span>⚡</span>
+                            <span>Pasar a Reto Intermedio ➔</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PANEL 3: VISTA PREVIA EN VIVO (IFRAME) -->
+            <section class="preview-panel" aria-label="Vista previa del resultado">
+                <div class="preview-toolbar">
+                    <div class="preview-title">
+                        <span>🌐</span>
+                        <span>Vista Previa del Navegador</span>
+                    </div>
+                    <div class="preview-badge-live">
+                        <span class="live-dot"></span>
+                        <span>En Vivo</span>
+                    </div>
+                </div>
+
+                <div class="preview-frame-wrapper">
+                    <iframe id="preview-iframe" title="Vista previa en tiempo real" sandbox="allow-scripts allow-same-origin"></iframe>
+                </div>
+
+                <!-- Toast de Feedback Dinámico -->
+                <div id="feedback-toast" class="feedback-toast" role="alert">
+                    <span id="feedback-toast-message">Mensaje de validación</span>
+                    <button type="button" class="close-toast-btn" onclick="document.getElementById('feedback-toast').style.display='none'">&times;</button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- =========================================================
+         2.5. MODAL: BRIEFING EN 3 PASOS (MISIÓN -> OBJETIVO -> CONCEPTO)
+         ========================================================= -->
+    <div id="mission-modal" class="modal-backdrop">
+        <div class="modal-box mission-modal-box">
+            <button class="modal-close-icon" id="mission-modal-close-btn" type="button" aria-label="Cerrar modal">&times;</button>
+            
+            <div class="mission-modal-header">
+                <div class="mission-modal-badge-row">
+                    <span id="mission-modal-level-tag" class="mission-modal-tag">Nivel 1</span>
+                    <span id="mission-modal-cat-badge" class="level-category-badge">Fundamentos HTML</span>
+                </div>
+
+                <!-- Stepper indicador de 3 Pasos -->
+                <div class="mission-stepper" role="tablist" aria-label="Pasos de preparación">
+                    <button class="stepper-step active" id="stepper-step-1" type="button" data-step="1" title="Paso 1: La Misión">
+                        <span class="step-num">1</span>
+                        <span class="step-label">📜 Misión</span>
+                    </button>
+                    <div class="stepper-divider"></div>
+                    <button class="stepper-step" id="stepper-step-2" type="button" data-step="2" title="Paso 2: El Objetivo">
+                        <span class="step-num">2</span>
+                        <span class="step-label">🎯 Objetivo</span>
+                    </button>
+                    <div class="stepper-divider"></div>
+                    <button class="stepper-step" id="stepper-step-3" type="button" data-step="3" title="Paso 3: Concepto Clave">
+                        <span class="step-num">3</span>
+                        <span class="step-label">📖 Concepto</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mission-modal-body">
+                <!-- PASO 1: LA MISIÓN -->
+                <div class="mission-step-view active" id="mission-step-view-1">
+                    <div class="step-hero-card mission-hero">
+                        <div class="step-hero-icon">📜</div>
+                        <div class="step-hero-info">
+                            <span class="step-subtitle">Paso 1 de 3: Contexto y Misión</span>
+                            <h2 id="mission-modal-title" class="mission-step-heading">Título de la Misión</h2>
+                        </div>
+                    </div>
+                    <div class="step-content-card">
+                        <div class="step-content-badge">Consigna de la Misión</div>
+                        <p id="mission-modal-instructions" class="mission-modal-text">Cargando misión...</p>
+                    </div>
+                </div>
+
+                <!-- PASO 2: EL OBJETIVO -->
+                <div class="mission-step-view" id="mission-step-view-2" style="display: none;">
+                    <div class="step-hero-card target-hero">
+                        <div class="step-hero-icon">🎯</div>
+                        <div class="step-hero-info">
+                            <span class="step-subtitle">Paso 2 de 3: Requisitos Técnicos</span>
+                            <h2 class="mission-step-heading">Objetivo a Cumplir</h2>
+                        </div>
+                    </div>
+                    <div class="step-content-card target-card">
+                        <div class="step-content-badge target-badge">Lo que debes construir</div>
+                        <p id="mission-modal-target" class="mission-modal-text">Cargando objetivo...</p>
+                    </div>
+                </div>
+
+                <!-- PASO 3: EL CONCEPTO CLAVE -->
+                <div class="mission-step-view" id="mission-step-view-3" style="display: none;">
+                    <div class="step-hero-card concept-hero">
+                        <div class="step-hero-icon">📖</div>
+                        <div class="step-hero-info">
+                            <span class="step-subtitle">Paso 3 de 3: Fundamento Didáctico</span>
+                            <h2 class="mission-step-heading">Concepto Clave</h2>
+                        </div>
+                    </div>
+                    <div class="step-content-card concept-card">
+                        <div class="step-content-badge concept-badge">Teoría y Explicación</div>
+                        <p id="mission-modal-theory" class="mission-modal-text">Cargando concepto...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer con navegación entre pasos -->
+            <div class="mission-modal-footer">
+                <div class="modal-footer-left">
+                    <button id="mission-step-prev-btn" class="action-btn btn-secondary" type="button" style="display: none;">
+                        <span>⬅</span> <span>Anterior</span>
+                    </button>
+                    <button id="mission-step-skip-btn" class="modal-skip-link" type="button" title="Ir directamente a programar">
+                        Saltar al editor ➔
+                    </button>
+                </div>
+                
+                <div class="modal-footer-right">
+                    <button id="mission-step-next-btn" class="action-btn btn-primary" type="button">
+                        <span>Siguiente: Ver Objetivo</span> <span>➔</span>
+                    </button>
+                    <button id="start-coding-btn" class="action-btn btn-primary start-mission-btn" type="button" style="display: none;">
+                        <span>🚀</span> <span>¡Entendido! A Programar ➔</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         3. MODAL DE ÉXITO Y CELEBRACIÓN (ESTRELLAS + PUNTOS)
+         ========================================================= -->
+    <div id="success-modal" class="modal-backdrop">
+        <div class="modal-box">
+            <button class="modal-close-icon" type="button" aria-label="Cerrar modal">&times;</button>
+            <div class="success-trophy">🎉</div>
+            <h2 id="success-modal-title">¡Misión Cumplida!</h2>
+            <p id="success-modal-desc" style="color: var(--text-muted); font-size: 0.95rem;">Tu código superó todas las pruebas técnicas del nivel.</p>
+
+            <!-- Estrellas Animadas -->
+            <div id="modal-stars-wrapper" class="modal-stars-container">
+                <!-- Generadas dinámicamente con JS -->
+            </div>
+
+            <!-- Desglose de Puntos -->
+            <div class="score-breakdown">
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Puntos Ganados</span>
+                    <span id="modal-earned-score" class="breakdown-value" style="color: var(--accent-space);">+100 pts</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Intentos</span>
+                    <span id="modal-attempts-summary" class="breakdown-value">1</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Pista</span>
+                    <span id="modal-hint-summary" class="breakdown-value">0</span>
+                </div>
+            </div>
+
+            <div class="modal-actions-row">
+                <button id="modal-download-code-btn" class="action-btn btn-secondary" type="button" title="Descargar código de este nivel">
+                    <span>📥</span>
+                    <span>Descargar Mi Solución</span>
+                </button>
+                <button id="modal-to-levels-btn" class="action-btn btn-secondary" type="button">
+                    🗺️ Mapa de Niveles
+                </button>
+                <button id="next-level-modal-btn" class="action-btn btn-primary" type="button">
+                    Avanzar al Siguiente Nivel ➔
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         4. MODAL: MAPA DE NIVELES (25 NIVELES)
+         ========================================================= -->
+    <div id="levels-modal" class="modal-backdrop">
+        <div class="modal-box levels-modal-box">
+            <div class="levels-modal-header">
+                <h2>🗺️ Mapa de Niveles (1 al 25)</h2>
+                <button class="modal-close-icon" type="button" aria-label="Cerrar modal">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.95rem;">
+                Selecciona cualquier nivel que hayas desbloqueado para practicar o mejorar tu puntaje.
+            </p>
+            <div id="levels-grid-container" class="levels-grid">
+                <!-- Generado dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Librerías Externas vía CDN y Local -->
+    <script src="js/jszip.min.js"></script>
+    <script src="vendor/codemirror/codemirror.min.js"></script>
+    <script src="vendor/codemirror/mode/xml/xml.min.js"></script>
+    <script src="vendor/codemirror/mode/javascript/javascript.min.js"></script>
+    <script src="vendor/codemirror/mode/css/css.min.js"></script>
+    <script src="vendor/codemirror/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="vendor/codemirror/addon/edit/closetag.min.js"></script>
+    <script src="vendor/codemirror/addon/edit/closebrackets.min.js"></script>
+    <script src="vendor/confetti.browser.min.js"></script>
+
+    <!-- Módulos de la Aplicación -->
+    <script src="js/audio.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/levels-data.js"></script>
+    <script src="js/validator.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
