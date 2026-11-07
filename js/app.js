@@ -1,3 +1,12 @@
+// Escapa texto antes de insertarlo con innerHTML (las etiquetas como <body> deben verse, no interpretarse)
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
 // Controlador principal de la aplicación y lógica de interacción
 class AppController {
     constructor() {
@@ -18,6 +27,8 @@ class AppController {
 
         // Aplicar modo visual
         document.documentElement.setAttribute('data-theme', savedUiMode);
+        const uiIcon = document.getElementById('theme-toggle-icon');
+        if (uiIcon) uiIcon.textContent = savedUiMode === 'dark' ? '🌙' : '☀️';
 
         // Inicializar CodeMirror
         this.setupEditor();
@@ -40,7 +51,7 @@ class AppController {
 
         this.editor = CodeMirror.fromTextArea(textarea, {
             mode: 'htmlmixed',
-            theme: 'dracula',
+            theme: 'pixel9',
             lineNumbers: true,
             lineWrapping: true,
             autoCloseTags: true,
@@ -506,14 +517,14 @@ class AppController {
                     <div class="level-card-meta">
                         <div class="level-card-num-row">
                             <span class="level-card-number">Nivel ${lvl.id}</span>
-                            <span class="level-card-badge ${catClass}">${lvl.badge}</span>
+                            <span class="level-card-badge ${catClass}">${escapeHtml(lvl.badge)}</span>
                         </div>
-                        <div class="level-card-short-title">${visual.shortTitle}</div>
+                        <div class="level-card-short-title">${escapeHtml(visual.shortTitle)}</div>
                     </div>
                 </div>
                 <div class="level-card-concept-box">
-                    <div class="level-card-code-tag"><code>${visual.tag}</code></div>
-                    <div class="level-card-desc">${lvl.title}</div>
+                    <div class="level-card-code-tag"><code>${escapeHtml(visual.tag)}</code></div>
+                    <div class="level-card-desc">${escapeHtml(lvl.title)}</div>
                 </div>
                 <div class="level-card-footer">
                     ${footerHtml}
@@ -584,7 +595,7 @@ class AppController {
     }
 
     toggleUiMode() {
-        const currentMode = document.documentElement.getAttribute('data-theme') || 'dark';
+        const currentMode = document.documentElement.getAttribute('data-theme') || 'light';
         const newMode = currentMode === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newMode);
         window.gameStorage.setUiMode(newMode);
@@ -859,7 +870,8 @@ ${code}
                 confetti({
                     particleCount: 75,
                     spread: 65,
-                    origin: { y: 0.65 }
+                    origin: { y: 0.65 },
+                    colors: ['#6c4df6', '#22bcf0', '#ff5d73', '#22c58b', '#ffc233']
                 });
             }
 
@@ -875,7 +887,8 @@ ${code}
                 confetti({
                     particleCount: 130,
                     spread: 85,
-                    origin: { y: 0.6 }
+                    origin: { y: 0.6 },
+                    colors: ['#6c4df6', '#22bcf0', '#ff5d73', '#22c58b', '#ffc233']
                 });
             }
 
@@ -1104,7 +1117,7 @@ ${code}
 
             card.innerHTML = `
                 <div class="num">#${lvl.id}</div>
-                <div style="font-size:0.75rem; font-weight:600; line-height:1.2; text-overflow:ellipsis;">${lvl.badge}</div>
+                <div style="font-size:0.75rem; font-weight:600; line-height:1.2; text-overflow:ellipsis;">${escapeHtml(lvl.badge)}</div>
                 <div class="stars">${starsText}</div>
             `;
 
@@ -1369,8 +1382,8 @@ CONTENIDO DE ESTA CARPETA:
             return `
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px; font-weight: 700; color: #0284c7;">#${lvl.id}</td>
-                <td style="padding: 12px; font-weight: 600; color: #1e293b;">${lvl.title}</td>
-                <td style="padding: 12px;"><span style="background:#f1f5f9; color:#475569; padding:2px 8px; border-radius:6px; font-size:12px; font-family:monospace;">${lvl.badge}</span></td>
+                <td style="padding: 12px; font-weight: 600; color: #1e293b;">${escapeHtml(lvl.title)}</td>
+                <td style="padding: 12px;"><span style="background:#f1f5f9; color:#475569; padding:2px 8px; border-radius:6px; font-size:12px; font-family:monospace;">${escapeHtml(lvl.badge)}</span></td>
                 <td style="padding: 12px;">${statusBadge}</td>
                 <td style="padding: 12px; font-size: 14px;">${starsHtml}</td>
                 <td style="padding: 12px; font-weight: 600; color: #0284c7;">${lvl.score > 0 ? lvl.score + ' pts' : '—'}</td>
